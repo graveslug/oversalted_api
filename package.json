@@ -1,0 +1,28 @@
+{
+  "name": "oversalted_api",
+  "version": "1.0.0",
+  "description": "server end for oversalted",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/graveslug/oversalted_api.git"
+  },
+  "author": "Philip Gray",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/graveslug/oversalted_api/issues"
+  },
+  "homepage": "https://github.com/graveslug/oversalted_api#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "method-override": "^3.0.0",
+    "mongoose": "^5.10.7"
+  }
+}
