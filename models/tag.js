@@ -10,7 +10,10 @@ const tagSchema = new mongoose.Schema(
             type: String,
             required: true
         },
-        forumEntries: [{Schema.Types.ObjectId, ref: "Forum"}]
+        _forum_id: [
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Forum"
+        ]
     }
 )
 

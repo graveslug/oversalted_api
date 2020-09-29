@@ -18,21 +18,23 @@ const userSchema = new mongoose.Schema(
             type: String,
             required: true
         },
-        forumEntries: [
+        _forum_id: [
             {
-            type: Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: "Forum"
         }],
-        tagEntries: [
+        _tag_id: [
             {
-            type: Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: "Tag"
-        }],
-        commentEntries: [
+            }
+        ],
+        _userComment_id: [
             {
-            type: Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: "Comment"
-        }]
+            }
+        ]
     }
 )
 

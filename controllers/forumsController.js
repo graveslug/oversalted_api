@@ -21,7 +21,7 @@ router.get('/', (req, res) => {
           forum: allForums,
         })
     } else {
-        console.log('index route:' +error.message)
+        console.log('index route:' + error.message)
     }
   })
 })

@@ -10,27 +10,26 @@ const forumSchema = new mongoose.Schema(
             type: String,
             required: true
         },
-        text: {
+        body: {
             type: String,
             required: true
         },
-        postedBy: {
-            type: Schema.Types.ObjectId,
+        _owner_id: {
+            type: mongoose.Schema.Types.ObjectId,
             ref: "User"
         },
-        commentEntries: [
+        _comment_id: [
             {
-            text: String,
-            postedBy: {
-            type: Schema.Types.ObjectId,
-            ref: "User"
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Comment"
             }
-        }],
-        tagEntries: [
+        ],
+        _tag_id: [
             {
-            type: Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: "Tag"
-        }],
+            }
+        ],
         createdAt: { type: Date, default: Date.now }
 
     }

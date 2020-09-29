@@ -3,7 +3,7 @@
 //==================//
 const express = require('express')
 const router = express.Router()
-const User = require('../models/user.js')
+const Tag = require('../models/tag.js')
 
 
 //==================//
@@ -13,29 +13,29 @@ const User = require('../models/user.js')
 
 // INDEX
 router.get('/', (req, res) => {
-  // look up all the users in the mongodb
-  // send the users to the Index view as a prop
-  User.find({}, (error, allUsers) => {
-    if(allUsers){
-        res.render('user/Index', {
-          user: allUsers,
+  // look up all the tags in the mongodb
+  // send the tags to the Index view as a prop
+  Tag.find({}, (error, allTags) => {
+    if(allTags){
+        res.render('tag/Index', {
+          tag: allTags,
         })
     } else {
-        console.log('index route:' +error.message)
+        console.log('index route:' + error.message)
     }
   })
 })
 
 // NEW
 router.get('/new', (req, res) => {
-  res.render('user/New')
+  res.render('tag/New')
 })
 
 // DESTROY
 router.delete('/:id', (req, res)=>{
-    User.remove({_id: req.params.id}, (error, deletedUser)=>{
-        if (deletedUser) {
-            console.log(deletedUser)
+    Tag.remove({_id: req.params.id}, (error, deletedTag)=>{
+        if (deletedTag) {
+            console.log(deletedTag)
         } else {
             console.log('destroy route:' + error.message)
         }
@@ -45,9 +45,9 @@ router.delete('/:id', (req, res)=>{
 
 //UPDATE
 router.put('/:id', (req, res) => {
-    User.findByIdAndUpdate({_id: req.params.id}, {...req.body}, (error, updatedUser) => {
-        if (updatedUser) {
-            console.log(updatedUser)
+    Tag.findByIdAndUpdate({_id: req.params.id}, {...req.body}, (error, updatedTag) => {
+        if (updatedTag) {
+            console.log(updatedTag)
         } else {
             console.log('update route:' + error.message)
         }
@@ -64,18 +64,18 @@ router.post('/', (req, res) => {
   } else {
     req.body.inStock = false
   }
-  User.create(req.body, (error, createdUser) => {
+  Tag.create(req.body, (error, createdTag) => {
       error ? res.send('create route:' + error.message) : res.redirect('/records')
   })
 })
 
 //EDIT
 router.get('/:id/edit', (req, res) => {
-    User.findById(req.params.id, (error, user) => {
-        if (user) {
-            console.log(user)
-            res.render('user/Edit', {
-                user: user
+    Tag.findById(req.params.id, (error, tag) => {
+        if (tag) {
+            console.log(tag)
+            res.render('tag/Edit', {
+                tag: tag
             })
         } else {
             console.log('edit route:' + error.message)
@@ -86,13 +86,13 @@ router.get('/:id/edit', (req, res) => {
 // SHOW
 router.get('/:id', (req, res) => {
     console.log(req.params.id)
-  User.findById(req.params.id, (error, foundUser) => {
+  Tag.findById(req.params.id, (error, foundTag) => {
       if(error) {
           console.log('show route:' + error.message)
           res.sendStatus(500)
       } else {
-    res.render('user/Show', {
-      user: foundUser,
+    res.render('tag/Show', {
+      tag: foundTag,
     })
 }
   })

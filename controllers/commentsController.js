@@ -3,7 +3,7 @@
 //==================//
 const express = require('express')
 const router = express.Router()
-const User = require('../models/user.js')
+const Comment = require('../models/comment.js')
 
 
 //==================//
@@ -13,12 +13,12 @@ const User = require('../models/user.js')
 
 // INDEX
 router.get('/', (req, res) => {
-  // look up all the users in the mongodb
-  // send the users to the Index view as a prop
-  User.find({}, (error, allUsers) => {
-    if(allUsers){
-        res.render('user/Index', {
-          user: allUsers,
+  // look up all the comments in the mongodb
+  // send the comments to the Index view as a prop
+  Comment.find({}, (error, allComments) => {
+    if(allComments){
+        res.render('comment/Index', {
+          comment: allComments,
         })
     } else {
         console.log('index route:' +error.message)
@@ -28,14 +28,14 @@ router.get('/', (req, res) => {
 
 // NEW
 router.get('/new', (req, res) => {
-  res.render('user/New')
+  res.render('comment/New')
 })
 
 // DESTROY
 router.delete('/:id', (req, res)=>{
-    User.remove({_id: req.params.id}, (error, deletedUser)=>{
-        if (deletedUser) {
-            console.log(deletedUser)
+    Comment.remove({_id: req.params.id}, (error, deletedComment)=>{
+        if (deletedComment) {
+            console.log(deletedComment)
         } else {
             console.log('destroy route:' + error.message)
         }
@@ -45,9 +45,9 @@ router.delete('/:id', (req, res)=>{
 
 //UPDATE
 router.put('/:id', (req, res) => {
-    User.findByIdAndUpdate({_id: req.params.id}, {...req.body}, (error, updatedUser) => {
-        if (updatedUser) {
-            console.log(updatedUser)
+    Comment.findByIdAndUpdate({_id: req.params.id}, {...req.body}, (error, updatedComment) => {
+        if (updatedComment) {
+            console.log(updatedComment)
         } else {
             console.log('update route:' + error.message)
         }
@@ -64,18 +64,18 @@ router.post('/', (req, res) => {
   } else {
     req.body.inStock = false
   }
-  User.create(req.body, (error, createdUser) => {
+  Comment.create(req.body, (error, createdComment) => {
       error ? res.send('create route:' + error.message) : res.redirect('/records')
   })
 })
 
 //EDIT
 router.get('/:id/edit', (req, res) => {
-    User.findById(req.params.id, (error, user) => {
-        if (user) {
-            console.log(user)
-            res.render('user/Edit', {
-                user: user
+    Comment.findById(req.params.id, (error, comment) => {
+        if (comment) {
+            console.log(comment)
+            res.render('comment/Edit', {
+                comment: comment
             })
         } else {
             console.log('edit route:' + error.message)
@@ -86,13 +86,13 @@ router.get('/:id/edit', (req, res) => {
 // SHOW
 router.get('/:id', (req, res) => {
     console.log(req.params.id)
-  User.findById(req.params.id, (error, foundUser) => {
+  Comment.findById(req.params.id, (error, foundComment) => {
       if(error) {
           console.log('show route:' + error.message)
           res.sendStatus(500)
       } else {
-    res.render('user/Show', {
-      user: foundUser,
+    res.render('comment/Show', {
+      comment: foundComment,
     })
 }
   })
