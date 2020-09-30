@@ -11,7 +11,7 @@ const Forum = require('../models/forum.js')
     //==================//
 
 
-// INDEX
+// INDEX, grabs all the posts
 router.get('/', (req, res) => {
   // look up all the forums in the mongodb
   // send the forums to the Index view as a prop
@@ -31,7 +31,7 @@ router.get('/new', (req, res) => {
   res.render('forum/New')
 })
 
-// DESTROY
+// DELETE, gets rid of the post
 router.delete('/:id', (req, res)=>{
     Forum.remove({_id: req.params.id}, (error, deletedForum)=>{
         if (deletedForum) {
@@ -43,7 +43,7 @@ router.delete('/:id', (req, res)=>{
     })
 })
 
-//UPDATE
+//UPDATE, updates the WHOLE document
 router.put('/:id', (req, res) => {
     Forum.findByIdAndUpdate({_id: req.params.id}, {...req.body}, (error, updatedForum) => {
         if (updatedForum) {
@@ -55,16 +55,20 @@ router.put('/:id', (req, res) => {
     })
 })
 
-// CREATE
+// CREATE Submits a new post
 router.post('/create', (req, res) => {
   // console.log(req.body)
 
-  Forum.create(req.body, (error, createdForum) => {
-      error ? res.send('create route:' + error.message) : res.status(200).json({message: "You've created the file"})
-  })
+    Forum.create(req.body, (error, createdForum) => {
+        error ? res.send('create route:' + error.message) : res.status(200).json(
+          {
+              message: "You've created the file"
+          }
+        )
+    })
 })
 
-//EDIT
+//EDIT, edits the post
 router.get('/:id/edit', (req, res) => {
     Forum.findById(req.params.id, (error, forum) => {
         if (forum) {
@@ -78,7 +82,7 @@ router.get('/:id/edit', (req, res) => {
     })
 })
 
-// SHOW
+// SHOWs the document
 router.get('/:id', (req, res) => {
     console.log(req.params.id)
   Forum.findById(req.params.id, (error, foundForum) => {

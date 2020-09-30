@@ -10,7 +10,7 @@ const methodOverride = require('method-override')
 const cors = require("cors")
 const bodyParser = require('body-parser')
 const passport = require("./config/passport")();
-
+const logger = require('morgan')
 
 
     //============================//
@@ -43,18 +43,22 @@ app.use(bodyParser.urlencoded({ extended: true}))
 //I don't think I need this since the above line is extended to true instead of false.
 app.use(bodyParser.json())
 app.use(methodOverride('_method'))
+app.use(logger('dev'))
 
     //============================//
-    //      Controllers           //
+    //         Routes             //
     //============================//
-//Controllers the user in creating, updating, and deleting from the user model.
-app.use("/user", require("./controllers/usersController"))
+// const usersRoute = require('./routes/users')
+// app.use("/user", usersRoute)
+//
+const forumsRoute = require('./routes/forums')
+app.use("/forum", forumsRoute)
 
-app.use("/tag", require("./controllers/tagsController"))
+const commentsRoute = require('./routes/comments')
+app.use("/comment", commentsRoute)
 
-app.use("/comment", require("./controllers/commentsController"))
-
-app.use("/forum", require("./controllers/forumsController"))
+// const tagsRoute = require('./routes/tags')
+// app.use("/tag", tagsRoute)
 
     //============================//
     //             PORT           //
