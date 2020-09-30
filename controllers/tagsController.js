@@ -39,7 +39,7 @@ router.delete('/:id', (req, res)=>{
         } else {
             console.log('destroy route:' + error.message)
         }
-        res.redirect('/')//Need to figure out what to do redirect to
+        res.status(200).json({message: "You've destroyed the file"})
     })
 })
 
@@ -51,12 +51,12 @@ router.put('/:id', (req, res) => {
         } else {
             console.log('update route:' + error.message)
         }
-        res.redirect("/")//Need to figure out what to do redirect to
+        res.status(200).json({message: "You've update the file"})
     })
 })
 
 // CREATE
-router.post('/', (req, res) => {
+router.post('/create', (req, res) => {
   // console.log(req.body)
 
   if (req.body.inStock === 'on') {
@@ -65,7 +65,7 @@ router.post('/', (req, res) => {
     req.body.inStock = false
   }
   Tag.create(req.body, (error, createdTag) => {
-      error ? res.send('create route:' + error.message) : res.redirect('/records')
+      error ? res.send('create route:' + error.message) : res.status(200).json({message: "You've created the file"})
   })
 })
 

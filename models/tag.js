@@ -11,8 +11,10 @@ const tagSchema = new mongoose.Schema(
             required: true
         },
         _forum_id: [
+            {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Forum"
+            }
         ]
     }
 )

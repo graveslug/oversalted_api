@@ -1,14 +1,14 @@
-//==================//
-//    Dependencies  //
-//==================//
+    //==================//
+    //    Dependencies  //
+    //==================//
 const express = require('express')
 const router = express.Router()
 const Forum = require('../models/forum.js')
 
 
-//==================//
-//  Routes          //
-//==================//
+    //==================//
+    //  Routes          //
+    //==================//
 
 
 // INDEX
@@ -39,7 +39,7 @@ router.delete('/:id', (req, res)=>{
         } else {
             console.log('destroy route:' + error.message)
         }
-        res.redirect('/')//Need to figure out what to do redirect to
+        res.status(200).json({message: "You've destroyed the file"})
     })
 })
 
@@ -51,21 +51,16 @@ router.put('/:id', (req, res) => {
         } else {
             console.log('update route:' + error.message)
         }
-        res.redirect("/")//Need to figure out what to do redirect to
+        res.status(200).json({message: "You've udpated the file"})
     })
 })
 
 // CREATE
-router.post('/', (req, res) => {
+router.post('/create', (req, res) => {
   // console.log(req.body)
 
-  if (req.body.inStock === 'on') {
-    req.body.inStock = true
-  } else {
-    req.body.inStock = false
-  }
   Forum.create(req.body, (error, createdForum) => {
-      error ? res.send('create route:' + error.message) : res.redirect('/records')
+      error ? res.send('create route:' + error.message) : res.status(200).json({message: "You've created the file"})
   })
 })
 

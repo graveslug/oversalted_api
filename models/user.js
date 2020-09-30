@@ -1,6 +1,6 @@
-//============================//
-//          User Model        //
-//============================//
+    //============================//
+    //          User Model        //
+    //============================//
 
 const mongoose = require('mongoose')
 
@@ -22,7 +22,8 @@ const userSchema = new mongoose.Schema(
             {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Forum"
-        }],
+            }
+        ],
         _tag_id: [
             {
             type: mongoose.Schema.Types.ObjectId,

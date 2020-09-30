@@ -1,102 +1,96 @@
-//==================//
-//    Dependencies  //
-//==================//
+    //==================//
+    //    Dependencies  //
+    //==================//
 const express = require('express')
 const router = express.Router()
+const jwt = require("jwt-simple");
+const bcrypt = require("bcrypt");
+const passport = require("../config/passport");
+const config = require("../config/config");
 const User = require('../models/user.js')
 
 
-//==================//
-//  Routes          //
-//==================//
+    //==================//
+    //  Routes          //
+    //==================//
 
 
-// INDEX
-router.get('/', (req, res) => {
-  // look up all the users in the mongodb
-  // send the users to the Index view as a prop
-  User.find({}, (error, allUsers) => {
-    if(allUsers){
-        res.render('user/Index', {
-          user: allUsers,
-        })
-    } else {
-        console.log('index route:' +error.message)
-    }
-  })
-})
+// User create route. AKA Signup:
+router.post("/signup", (req, res) => {
+  console.log(req.body);
+  if (req.body.email && req.body.password) {
+    // Hash the password:
+    req.body.password = bcrypt.hashSync(
+      req.body.password,
+      bcrypt.genSaltSync(10)
+    );
 
-// NEW
-router.get('/new', (req, res) => {
-  res.render('user/New')
-})
-
-// DESTROY
-router.delete('/:id', (req, res)=>{
-    User.remove({_id: req.params.id}, (error, deletedUser)=>{
-        if (deletedUser) {
-            console.log(deletedUser)
-        } else {
-            console.log('destroy route:' + error.message)
-        }
-        res.redirect('/')//Need to figure out what to do redirect to
-    })
-})
-
-//UPDATE
-router.put('/:id', (req, res) => {
-    User.findByIdAndUpdate({_id: req.params.id}, {...req.body}, (error, updatedUser) => {
-        if (updatedUser) {
-            console.log(updatedUser)
-        } else {
-            console.log('update route:' + error.message)
-        }
-        res.redirect("/")//Need to figure out what to do redirect to
-    })
-})
-
-// CREATE
-router.post('/', (req, res) => {
-  // console.log(req.body)
-
-  if (req.body.inStock === 'on') {
-    req.body.inStock = true
-  } else {
-    req.body.inStock = false
-  }
-  User.create(req.body, (error, createdUser) => {
-      error ? res.send('create route:' + error.message) : res.redirect('/records')
-  })
-})
-
-//EDIT
-router.get('/:id/edit', (req, res) => {
-    User.findById(req.params.id, (error, user) => {
-        if (user) {
-            console.log(user)
-            res.render('user/Edit', {
-                user: user
-            })
-        } else {
-            console.log('edit route:' + error.message)
-        }
-    })
-})
-
-// SHOW
-router.get('/:id', (req, res) => {
-    console.log(req.params.id)
-  User.findById(req.params.id, (error, foundUser) => {
-      if(error) {
-          console.log('show route:' + error.message)
-          res.sendStatus(500)
+    User.findOne({ email: req.body.email }, (error, user) => {
+      console.log("========findOne=======", user);
+      if (!user) {
+        console.log("Running create user");
+        User.create(req.body, (error, createdUser) => {
+          console.log("createdUser", createdUser);
+          console.log("error", error);
+          if (createdUser) {
+            let payload = {
+              id: createdUser.id,
+              email: createdUser.email,
+              iat: Date.now(),
+            };
+            console.log(payload);
+            let token = jwt.encode(payload, config.jwtSecret);
+            console.log(token);
+            res.json({
+              token: token,
+            });
+          } else {
+            console.log("failed to create user");
+            res.sendStatus(401);
+          }
+        });
       } else {
-    res.render('user/Show', {
-      user: foundUser,
-    })
-}
-  })
-})
+        console.log("User already exists, try logging in instead");
+        res.sendStatus(401);
+      }
+    });
+  } else {
+    res.sendStatus(401);
+  }
+});
 
-//export router
-module.exports = router
+// User sign-in route
+router.post("/login", (req, res) => {
+  if (req.body.email && req.body.password) {
+    console.log(req.body.email);
+    User.findOne({ email: req.body.email }, (error, user) => {
+      if (error) console.log(error);
+      if (user) {
+        console.log("Found user. Checking password...");
+        if (bcrypt.compareSync(req.body.password, user.password)) {
+          console.log("Password correct, generating JWT...");
+          let payload = {
+            id: user.id,
+            email: user.email,
+            iat: Date.now(),
+          };
+          let token = jwt.encode(payload, config.jwtSecret);
+          console.log(token);
+          res.json({
+            token: token,
+          });
+        } else {
+          console.log("Wrong password");
+          res.sendStatus(401);
+        }
+      } else {
+        console.log("Couldn't find user. Try signing up.");
+        res.sendStatus(401);
+      }
+    });
+  } else {
+    res.sendStatus(401);
+  }
+});
+
+module.exports = router;
