@@ -1,15 +1,15 @@
 //============================//
 //      Dependencies          //
 //============================//
-require("dotenv").config()
-const express = require("express")
+require('dotenv').config()
+const express = require('express')
 const app = express()
 const PORT = process.env.PORT || 3000
-const mongoose = require("mongoose")
+const mongoose = require('mongoose')
 const methodOverride = require('method-override')
-const cors = require("cors")
+const cors = require('cors')
 const bodyParser = require('body-parser')
-// const passport = require("./config/passport")();
+// const passport = require('./config/passport')();
 const logger = require('morgan')
 
 
@@ -50,17 +50,25 @@ app.use(logger('dev'))
 //============================//
 //         Routes             //
 //============================//
-const usersRoute = require('./routes/users')
-app.use("/user", usersRoute)
-//
+// Directs user flow to creating, authentication, deletion for all user related models.
+app.use('/user', require('./routes/users'))
+//Directs user control flow to forums by users id.
+//eg ===> /user/userId/forums
+app.use('/user/:userId/forum', require('./routes/usersForum'))
+
+
+
+
+
+
 const forumsRoute = require('./routes/forums')
-app.use("/forum", forumsRoute)
+app.use('/forum', forumsRoute)
 
 const commentsRoute = require('./routes/comments')
-app.use("/comment", commentsRoute)
+app.use('/comment', commentsRoute)
 
 // const tagsRoute = require('./routes/tags')
-// app.use("/tag", tagsRoute)
+// app.use('/tag', tagsRoute)
 
 //============================//
 //             PORT           //
