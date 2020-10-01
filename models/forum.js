@@ -14,17 +14,17 @@ const forumSchema = new mongoose.Schema(
             type: String,
             required: true
         },
-        _ownerId: {
+        _owner: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"
         },
-        _commentId: [
+        _comment: [
             {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Comment"
             }
         ],
-        _tagId: [
+        _tag: [
             {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Tag"

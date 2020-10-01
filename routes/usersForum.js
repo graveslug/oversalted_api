@@ -17,17 +17,26 @@ router.get('/', async (req, res) => {
 
 //user adds new forum
 router.post('/', async (req, res) => {
-    //add userid
-
-    //create new forum
-
+    const userId = req.params.userId
+    //create new forum with users request
+    //console.log(userId)
+    const newForum = new Forum(req.body)
+    console.log(newForum)
     //get user
-
-    //assign user as a forums owner
-
+    const user = await User.findById(userId)
+    console.log(user)
+    try {
+    //assign user as a forums owner (this references the forumSchema and assigning it an owner)
+        newForum._owner = user
     //save the forum
-
-    //add forum to users forums array
-
+        await newForum.save()
+    //add forum to users _forums id within the userSchema
+        user._forum.push(newForum)
+    //save user
+        await user.save()
+        res.status(200).json({createdForum : newForum})
+    } catch(error) {
+        res.json({ createdForum: error })
+}
 })
 module.exports = router

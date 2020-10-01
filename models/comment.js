@@ -10,7 +10,7 @@ const commentSchema = new mongoose.Schema(
             type: String,
             required: true
             },
-        _userCommentId: {
+        _userComment: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"
         },
