@@ -18,19 +18,19 @@ const userSchema = new mongoose.Schema(
             type: String,
             required: true
         },
-        _forum_id: [
+        _forumId: [
             {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Forum"
             }
         ],
-        _tag_id: [
+        _tagId: [
             {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Tag"
             }
         ],
-        _userComment_id: [
+        _userCommentId: [
             {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Comment"

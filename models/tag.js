@@ -13,8 +13,8 @@ const tagSchema = new mongoose.Schema(
         body: {
             type: String,
             required: true,
-        }
-        _forum_id: [
+        },
+        _forumId: [
             {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Forum"
