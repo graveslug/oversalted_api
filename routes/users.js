@@ -2,7 +2,10 @@ const express = require('express')
 const router = express.Router()
 const User = require('../models/user')
 
-//Index: grabs all user posts
+
+//============================//
+//        Show all Users      //
+//============================//
 router.get('/', async (req, res) => {
     try{
         const users = await User.find()//.limit(10) would be useful if I wanted to add a limit to the query
@@ -12,7 +15,10 @@ router.get('/', async (req, res) => {
     }
 })
 
-//Deletes a posts
+//============================//
+//        Deletes user        //
+//============================//
+//Deletes a user
 router.delete('/:userId', async (req, res) => {
     try {
         const removedUser = User.remove({_id: req.params.userId })
@@ -22,29 +28,44 @@ router.delete('/:userId', async (req, res) => {
     }
 })
 
-//Update a post
-router.patch('/:userId', async (req, res) => {
+//============================//
+//  Update all User Fields    //
+//============================//
+//!!!TODO!!! Enforce all updates to replace(update) user
+router.put('/:userId', async (req, res) => {
+    const replaceUser = req.params.userId
+    const newUser = req.body
     try {
-        const updatedUser = await User.updateOne(
-            { _id: req.params.userId },
-            { $set:
-                { body: req.body.body }
-            }
-        )
-        res.json({message: updatedUser})
+        const result = await User.findByIdAndUpdate(replaceUser, newUser)
+        res.status(200).json({message: result})
     }catch(error){
         res.json({ message: error })
     }
 })
 
+//============================//
+//  Patches users             //
+//============================//
+//Instead of replacing the user; patch will update whatever fields are requested by req.body from the user.
+router.patch('/:userId', async (req, res) => {
+    const patchUser = req.params.userId
+    const newUser = req.body
+    try {
+        const result = await User.findByIdAndUpdate(patchUser, newUser)
+        res.status(200).json({message: result})
+    }catch(error){
+        res.json({ message: error })
+    }
+})
+
+//============================//
+//     Create a new User      //
+//============================//
 //Create: a new user post
-router.post('/', async (req, res) => {
-    const user = new User({
-        title: req.body.title,
-        body: req.body.body
-    })
+router.post('/create', async (req, res) => {
+    const newUser = new User(req.body)
     try{
-        const userPost = await user.save()
+        const userPost = await newUser.save()
         res.json({message: userPost})
     }catch(error) {
         res.json({message: error})
@@ -66,8 +87,10 @@ router.post('/', async (req, res) => {
 //     })
 // })
 
-
-//Show: Shows a single requested page
+//============================//
+//    Get user by id          //
+//============================//
+//This gets the user by the id
 router.get('/:userId', async (req, res) => {
     try{
         const user = await User.findById(req.params.userId)

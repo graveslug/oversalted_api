@@ -2,18 +2,24 @@ const express = require('express')
 const router = express.Router()
 const Comment = require('../models/comment')
 
-//Not sure if I need this whole block or not.
-//Index: grabs all comment posts
-// router.get('/', async (req, res) => {
-//     try{
-//         const comments = await Comment.find()//.limit(10) would be useful if I wanted to add a limit to the query
-//         res.json({message: comments})
-//     }catch(error){
-//         res.json({message:error})
-//     }
-// })
 
-//Deletes a posts
+//============================//
+//        Show all comment    //
+//============================//
+//!!!THOUGHT!!! Not sure if I need this whole block or not.
+//Index: grabs all comment posts
+router.get('/', async (req, res) => {
+    try{
+        const comments = await Comment.find()//.limit(10) would be useful if I wanted to add a limit to the query
+        res.json({message: comments})
+    }catch(error){
+        res.json({message:error})
+    }
+})
+
+//============================//
+//       Deletes a comment    //
+//============================//
 router.delete('/:commentId', async (req, res) => {
     try {
         const removedComment = Comment.remove({_id: req.params.commentId })
@@ -23,7 +29,9 @@ router.delete('/:commentId', async (req, res) => {
     }
 })
 
-//Update a post
+//============================//
+//        Update a comment    //
+//============================//
 router.patch('/:commentId', async (req, res) => {
     try {
         const updatedComment = await Comment.updateOne(
@@ -38,7 +46,9 @@ router.patch('/:commentId', async (req, res) => {
     }
 })
 
-//Create: a new comment post
+//============================//
+//     Create a Comment       //
+//============================//
 router.post('/', async (req, res) => {
     const comment = new Comment({
         body: req.body.body
@@ -66,8 +76,11 @@ router.post('/', async (req, res) => {
 //     })
 // })
 
-
-//Show: Shows a single requested page
+//============================//
+//     Show req comment       //
+//============================//
+//Show: Shows a single comment
+//!!!THOUGHTS!!! Should this be exchanged for rendering all comments on a page or have the user select the comment and render it as a single view page. Do I want to chain comments down the road? Hm.
 router.get('/:commentId', async (req, res) => {
     try{
         const comment = await Comment.findById(req.params.commentId)

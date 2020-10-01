@@ -10,6 +10,10 @@ const tagSchema = new mongoose.Schema(
             type: String,
             required: true
         },
+        body: {
+            type: String,
+            required: true,
+        }
         _forum_id: [
             {
             type: mongoose.Schema.Types.ObjectId,

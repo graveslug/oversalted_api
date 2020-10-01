@@ -2,7 +2,11 @@ const express = require('express')
 const router = express.Router()
 const Tag = require('../models/tag')
 
-//Index: grabs all tag posts
+//============================//
+//        Show all Tags       //
+//============================//
+//Renders a list of all tags
+//!!!TODO!!! Renders name and a small body of a description for the tag
 router.get('/', async (req, res) => {
     try{
         const tags = await Tag.find()//.limit(10) would be useful if I wanted to add a limit to the query
@@ -12,8 +16,9 @@ router.get('/', async (req, res) => {
     }
 })
 
-
-//Deletes a posts
+//============================//
+//        Deletes a Tag       //
+//============================//
 router.delete('/:tagId', async (req, res) => {
     try {
         const removedTag = Tag.remove({_id: req.params.tagId })
@@ -23,7 +28,9 @@ router.delete('/:tagId', async (req, res) => {
     }
 })
 
-//Update a post
+//============================//
+//       Patch a Tag          //
+//============================//
 router.patch('/:tagId', async (req, res) => {
     try {
         const updatedTag = await Tag.updateOne(
@@ -38,10 +45,15 @@ router.patch('/:tagId', async (req, res) => {
     }
 })
 
-//Create: a new tag post
+//============================//
+//        Create a tag        //
+//============================//
+//a new tag
+//!!!!TODO!!!! Admin access only to creating new tags.
 router.post('/', async (req, res) => {
     const tag = new Tag({
-        name: req.body.name
+        name: req.body.name,
+        body: req.body.body
     })
     try{
         const tagPost = await tag.save()
@@ -66,8 +78,12 @@ router.post('/', async (req, res) => {
 //     })
 // })
 
-
-//Show: Shows a single requested page
+//============================//
+//   Show requested Tag       //
+//============================//
+//Show: Shows a tag
+//!!!!TODO!!!! Add that when I user selects a tag that all related pages with said tag renders an index.
+//!!!!TODO!!!! When able to render all related pages as an index limit page amount by n and use pagination
 router.get('/:tagId', async (req, res) => {
     try{
         const tag = await Tag.findById(req.params.tagId)
