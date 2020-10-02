@@ -16,8 +16,9 @@ router.route('/:userId')
 router.route('/:userId/forums')
     .get(usersController.getUserForums)
     .post(usersController.newUserForum)
-//    .delete(usersController.deleteUserForum)
-//    .edit(usersController.editUserForum)
 
+router.route('/:userId/comments')
+    .get(usersController.getComment)
 
+//post user comments - maybe. Might go to some specific comment route or into forum route as its part of the forum then I can tie it to the commentors name and the forums idea.
 module.exports = router

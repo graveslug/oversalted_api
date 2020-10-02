@@ -1,22 +1,13 @@
 const express = require('express')
 const router = express.Router()
-const Comment = require('../models/comment')
+const CommentsController = require('../controllers/forums')
 
 
-//============================//
-//        Show all comment    //
-//============================//
-//!!!THOUGHT!!! Not sure if I need this whole block or not.
-//Index: grabs all comment posts
-router.get('/', async (req, res) => {
-    try{
-        const comments = await Comment.find()//.limit(10) would be useful if I wanted to add a limit to the query
-        res.json({message: comments})
-    }catch(error){
-        res.json({message:error})
-    }
-})
-
+router.route('/:commentId')
+    .get()
+    .delete()
+    .patch()
+    .put()
 //============================//
 //       Deletes a comment    //
 //============================//

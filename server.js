@@ -36,6 +36,7 @@ db.on('open', ()=>{})
 //============================//
 const users = require('./routes/users')
 const forums = require('./routes/forums')
+const comments = require('./routes/comments')
 
 //============================//
 //        MiddleWare          //
@@ -55,7 +56,7 @@ app.use(logger('dev'))
 //============================//
 app.use('/users', users)
 app.use('/forums', forums)
-
+app.use('/comments', comments)
 
 // const forumsRoute = require('./routes/forums')
 // app.use('/forum', forumsRoute)

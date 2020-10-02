@@ -11,4 +11,6 @@ router.route('/:forumId')
     .put(ForumsController.putForum)
     .patch(ForumsController.patchForum)
 
+//I think there should be a comments controller in here as well
+
 module.exports = router

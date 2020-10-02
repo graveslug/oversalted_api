@@ -1,5 +1,6 @@
 const User = require('../models/user')
 const Forum = require('../models/forum')
+const Comment = require('../models/comment')
 
 module.exports = {
     //============================//
@@ -73,7 +74,7 @@ module.exports = {
         const userId = req.params.userId
         const user = await User.findById(userId)
         try {
-            console.log('user', user)
+            res.status(200).json(user._forum)
         } catch (error) {
             res.json({ message: error })
         }
@@ -98,6 +99,18 @@ module.exports = {
         } catch(error) {
             res.json({ createdForum: error })
         }
-    }
+    },
 
+    //============================//
+    //      User => Comment       //
+    //============================//
+    getComment: async (req, res, next) =>{
+        const userId = req.params.userId
+        const user = await User.findById(userId)
+        try {
+            res.status(200).json(user._comment)
+        } catch (error) {
+            res.json({ message: error })
+        }
+    },
 }
