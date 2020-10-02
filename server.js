@@ -12,7 +12,6 @@ const bodyParser = require('body-parser')
 // const passport = require('./config/passport')();
 const logger = require('morgan')
 
-
 //============================//
 //   Database & connections   //
 //============================//
@@ -32,8 +31,6 @@ db.on('disconnected', ()=> console.log('Your mongod has disconnected'))
 //opens connection to mongod
 db.on('open', ()=>{})
 
-
-
 //============================//
 //        MiddleWare          //
 //============================//
@@ -50,22 +47,15 @@ app.use(logger('dev'))
 //============================//
 //         Routes             //
 //============================//
-// Directs user flow to creating, authentication, deletion for all user related models.
-app.use('/user', require('./routes/users'))
-//Directs user control flow to forums by users id.
-//eg ===> /user/userId/forums
-app.use('/user/:userId/forum', require('./routes/usersForum'))
+const users = require('./routes/users')
+app.use('/users', users)
 
 
-
-
-
-
-const forumsRoute = require('./routes/forums')
-app.use('/forum', forumsRoute)
-
-const commentsRoute = require('./routes/comments')
-app.use('/comment', commentsRoute)
+// const forumsRoute = require('./routes/forums')
+// app.use('/forum', forumsRoute)
+//
+// const commentsRoute = require('./routes/comments')
+// app.use('/comment', commentsRoute)
 
 // const tagsRoute = require('./routes/tags')
 // app.use('/tag', tagsRoute)
