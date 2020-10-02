@@ -1,4 +1,5 @@
-  const User = require('../models/user')
+const User = require('../models/user')
+const Forum = require('../models/forum')
 
 module.exports = {
     //============================//

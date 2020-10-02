@@ -24,12 +24,6 @@ const userSchema = new mongoose.Schema(
             ref: "Forum"
             }
         ],
-        _tag: [
-            {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Tag"
-            }
-        ],
         _userComment: [
             {
             type: mongoose.Schema.Types.ObjectId,

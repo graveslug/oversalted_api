@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const User = require('../models/user')
 const Forum = require('../models/forum')
+
 usersController = require('../controllers/users')
 
 router.route('/')
@@ -18,5 +19,5 @@ router.route('/:userId/forums')
     .get(usersController.getUserForums)
     .post(usersController.newUserForum)
 
-    
+
 module.exports = router
