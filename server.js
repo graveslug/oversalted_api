@@ -32,6 +32,12 @@ db.on('disconnected', ()=> console.log('Your mongod has disconnected'))
 db.on('open', ()=>{})
 
 //============================//
+//     Routes assigned        //
+//============================//
+const users = require('./routes/users')
+const forums = require('./routes/forums')
+
+//============================//
 //        MiddleWare          //
 //============================//
 //Turns off a deprication error with findByIdAndUpdate
@@ -47,8 +53,8 @@ app.use(logger('dev'))
 //============================//
 //         Routes             //
 //============================//
-const users = require('./routes/users')
 app.use('/users', users)
+app.use('/forums', forums)
 
 
 // const forumsRoute = require('./routes/forums')
