@@ -3,10 +3,12 @@ const router = express.Router()
 const Forum = require('../models/forum')
 
 
+
+
 //============================//
 //      Grabs all Forums      //
 //============================//
-//!!!TODO/THOUGHT!!! Not sure what to do with this. I might just render all forums based on their tags rather than the forum itself. I may have to run this through tags instead. 
+//!!!TODO/THOUGHT!!! Not sure what to do with this. I might just render all forums based on their tags rather than the forum itself. I may have to run this through tags instead.
 router.get('/', async (req, res) => {
     try{
         const forums = await Forum.find()//.limit(10) would be useful if I wanted to add a limit to the query

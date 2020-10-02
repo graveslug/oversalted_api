@@ -18,6 +18,8 @@ router.route('/:userId')
 router.route('/:userId/forums')
     .get(usersController.getUserForums)
     .post(usersController.newUserForum)
+//    .delete(usersController.deleteUserForum)
+//    .edit(usersController.editUserForum)
 
 
 module.exports = router

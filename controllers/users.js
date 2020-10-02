@@ -59,7 +59,7 @@ module.exports = {
     deleteUser: async (req, res, next) => {
         try {
             const removedUser = User.remove({_id: req.params.userId })
-            res.status(200).json({message: "You've destroyed the file"})
+             res.status(200).json({message: "You've destroyed the file"})
         }catch(error){
             res.json({ message: error})
         }
@@ -99,8 +99,5 @@ module.exports = {
             res.json({ createdForum: error })
         }
     }
-
-
-
 
 }
